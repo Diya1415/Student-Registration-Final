@@ -1,0 +1,173 @@
+/* ---------- Colour palette (change these to restyle everything) ---------- */
+:root {
+  --ink:    #1f2a44;   /* deep navy - main dark colour */
+  --slate:  #3e5c76;   /* muted blue - buttons, focus */
+  --teal:   #5b8e8b;   /* soft sage teal - success / accents */
+  --brass:  #b08d57;   /* muted gold - small highlight line */
+  --mist:   #eef2f6;   /* page background */
+  --paper:  #ffffff;   /* card background */
+  --line:   #d8e0e8;   /* borders */
+  --text:   #2b3445;   /* body text */
+  --danger: #b4483f;   /* error messages */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--mist);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* Main two-column card */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  width: 100%;
+  max-width: 960px;
+  background: var(--paper);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(31, 42, 68, 0.12);
+}
+
+/* Left navy panel */
+.intro {
+  background: var(--ink);
+  color: #e8edf3;
+  padding: 48px 36px;
+  border-bottom: 4px solid var(--brass);
+}
+.intro h1 {
+  font-family: 'Newsreader', serif;
+  font-weight: 600;
+  font-size: 2.4rem;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+.intro p { font-size: 0.95rem; line-height: 1.7; color: #b9c4d2; }
+
+/* Right panel */
+.panel { padding: 44px 40px; }
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { margin-bottom: 20px; }
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 7px;
+  color: var(--ink);
+}
+
+input, select {
+  width: 100%;
+  padding: 11px 13px;
+  font: inherit;
+  color: var(--text);
+  background: #f9fbfd;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--slate);
+  box-shadow: 0 0 0 3px rgba(62, 92, 118, 0.18);
+}
+input.invalid, select.invalid { border-color: var(--danger); }
+
+.error { display: block; min-height: 16px; margin-top: 5px; font-size: 0.78rem; color: var(--danger); }
+
+button {
+  width: 100%;
+  padding: 13px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--slate);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover { background: var(--ink); }
+button:disabled { opacity: 0.6; cursor: wait; }
+button.secondary { background: transparent; color: var(--slate); border: 1px solid var(--slate); margin-top: 26px; }
+button.secondary:hover { background: var(--slate); color: #fff; }
+
+.server-error { margin-top: 12px; font-size: 0.85rem; color: var(--danger); text-align: center; }
+
+/* Result card */
+.hidden { display: none; }
+.result h2 { font-family: 'Newsreader', serif; font-size: 1.9rem; color: var(--ink); }
+.result .sub { color: #6b7686; margin: 6px 0 24px; font-size: 0.92rem; }
+.result dl > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.result dt { color: #6b7686; font-size: 0.88rem; }
+.result dd { font-weight: 600; color: var(--ink); text-align: right; }
+.result dd#r-cgpa { color: var(--teal); }
+
+/* Mobile: stack the two columns */
+@media (max-width: 720px) {
+  .layout { grid-template-columns: 1fr; }
+  .intro { padding: 32px 28px; }
+  .panel { padding: 32px 24px; }
+  .row { grid-template-columns: 1fr; gap: 0; }
+}
+
+/* ---------- Result buttons (Print + Register another) ---------- */
+.actions { display: flex; gap: 12px; margin-top: 26px; }
+.actions button { flex: 1; margin-top: 0; }
+
+/* Print-only parts are invisible on screen */
+.print-only { display: none; }
+
+/* ---------- PRINT LAYOUT (used by the Print button and Ctrl+P) ---------- */
+/* Paper: A4 portrait with 18 mm margins. The user can still change this in the print dialog. */
+@page { size: A4 portrait; margin: 18mm; }
+
+@media print {
+  /* Plain white page, no screen decorations */
+  body { background: #fff; display: block; min-height: 0; padding: 0; color: #000; font-size: 12pt; }
+  .layout { display: block; box-shadow: none; border-radius: 0; max-width: 100%; background: #fff; }
+  .intro, .no-print, .screen-only, button { display: none !important; }
+  .panel { padding: 0; }
+  .print-only { display: block; }
+
+  /* Title block at the top of the printout */
+  .print-head { text-align: center; padding-bottom: 12px; margin-bottom: 26px; border-bottom: 2px solid var(--ink); }
+  .print-head h1 { font-family: 'Newsreader', Georgia, serif; font-size: 24pt; color: var(--ink); }
+  .print-head p { font-size: 11pt; color: #444; margin-top: 4px; }
+
+  /* Details table */
+  .result dl > div { padding: 12px 4px; border-bottom: 1px solid #999; }
+  .result dt { color: #333; font-size: 11pt; }
+  .result dd { color: #000; font-size: 12pt; }
+  .result dd#r-cgpa { color: #000; }
+
+  /* Signature lines at the bottom */
+  .print-foot { margin-top: 90px; }
+  .signs { display: flex; justify-content: space-between; gap: 40px; }
+  .signs div { flex: 1; border-top: 1px solid #000; padding-top: 6px; text-align: center; font-size: 10.5pt; }
+  .print-note { margin-top: 30px; font-size: 9.5pt; color: #444; text-align: right; }
+
+  /* Never split the table or signatures across two pages */
+  .result, .print-foot { break-inside: avoid; }
+}
+
+/* ---------- Validation look ---------- */
+input.valid, select.valid { border-color: var(--teal); }
+.server-error { padding: 10px 12px; border-radius: 8px; background: #fbeceb; }
+.server-error:empty { display: none; }
+.result dd { word-break: break-all; margin-left: 16px; }

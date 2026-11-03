@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Registration</title>
+
+  <!-- Google Fonts: Newsreader for headings, Manrope for everything else -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Newsreader:wght@500;600&display=swap" rel="stylesheet">
+
+  <!-- Our own stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="layout">
+
+    <!-- Left panel: just a title and a short note -->
+    <aside class="intro">
+      <h1>Student<br>Registration</h1>
+      <p>Fill in your personal details for the engineering department records. It takes less than a minute.</p>
+    </aside>
+
+    <!-- Right panel: the form and (later) the result card -->
+    <section class="panel">
+
+      <!-- ===== REGISTRATION FORM ===== -->
+      <form id="regForm" novalidate>
+
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" placeholder="e.g. Diya Kamadoli" autocomplete="name" maxlength="50">
+          <small class="error" id="err-name"></small>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="usn">USN</label>
+            <input type="text" id="usn" name="usn" placeholder="e.g. 2KE24CS039" maxlength="10" autocomplete="off">
+            <small class="error" id="err-usn"></small>
+          </div>
+
+          <div class="field">
+            <label for="email">Gmail address</label>
+            <input type="email" id="email" name="email" placeholder="yourname@gmail.com" maxlength="40" autocomplete="email">
+            <small class="error" id="err-email"></small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="sem">Semester</label>
+            <select id="sem" name="sem">
+              <option value="">Select</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+            </select>
+            <small class="error" id="err-sem"></small>
+          </div>
+
+          <div class="field">
+            <label for="division">Division</label>
+            <select id="division" name="division">
+              <option value="">Select</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+            </select>
+            <small class="error" id="err-division"></small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="cgpa">CGPA (out of 10)</label>
+            <input type="text" id="cgpa" name="cgpa" placeholder="e.g. 8.45" inputmode="decimal" maxlength="5">
+            <small class="error" id="err-cgpa"></small>
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="text" id="phone" name="phone" placeholder="10-digit number" maxlength="10" inputmode="numeric" autocomplete="tel">
+            <small class="error" id="err-phone"></small>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn">Register</button>
+        <p class="server-error" id="serverError" role="alert"></p>
+      </form>
+
+      <!-- ===== RESULT CARD (hidden until success) ===== -->
+      <div id="result" class="result hidden">
+
+        <!-- Shown only on paper: form title at the top of the printout -->
+        <div class="print-only print-head">
+          <h1>Student Registration Form</h1>
+          <p>Engineering Students - Personal Details</p>
+        </div>
+
+        <!-- Shown only on screen -->
+        <h2 class="screen-only">Registration complete</h2>
+        <p class="sub screen-only">Here are the details you submitted.</p>
+
+        <dl>
+          <div><dt>Name</dt><dd id="r-name"></dd></div>
+          <div><dt>USN</dt><dd id="r-usn"></dd></div>
+          <div><dt>Gmail</dt><dd id="r-email"></dd></div>
+          <div><dt>Semester</dt><dd id="r-sem"></dd></div>
+          <div><dt>Division</dt><dd id="r-division"></dd></div>
+          <div><dt>CGPA</dt><dd id="r-cgpa"></dd></div>
+          <div><dt>Phone</dt><dd id="r-phone"></dd></div>
+          <div><dt>Submitted on</dt><dd id="r-time"></dd></div>
+        </dl>
+
+        <!-- Shown only on paper: print date and signature lines -->
+        <div class="print-only print-foot">
+          <div class="signs">
+            <div>Student signature</div>
+            <div>Class coordinator signature</div>
+          </div>
+          <p class="print-note">Printed on: <span id="printedOn"></span></p>
+        </div>
+
+        <!-- Buttons (hidden when printing) -->
+        <div class="actions no-print">
+          <button type="button" id="printBtn">Print</button>
+          <button type="button" id="newBtn" class="secondary">Register another student</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- jQuery from CDN, then our script (order matters!) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
